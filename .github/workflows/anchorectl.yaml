@@ -1,4 +1,4 @@
-name: Anchore Enterprise with anchorectl
+name: Anchore Enterprise Distributed Scan
 
 on:
   ### UNCOMMENT THIS SECTION TO AUTOBUILD ON ANY PUSH
@@ -62,10 +62,10 @@ jobs:
         echo "IMAGE=${REGISTRY}/${GITHUB_REPOSITORY}:${GITHUB_REF_NAME}" >> $GITHUB_ENV
         
     - name: Checkout Code
-      ### only need to do this if you want to pass the dockerfile during scanning
+      ### only need to do this if you want to pass the dockerfile to Anchore during scanning
       uses: actions/checkout@v3
         
-    - name: Install anchorectl Binary
+    - name: Install Latest anchorectl Binary
       run: |
         curl -sSfL https://anchorectl-releases.anchore.io/anchorectl/install.sh | sh -s -- -b ${HOME}/.local/bin v1.6.0
         export PATH="${HOME}/.local/bin/:${PATH}"
