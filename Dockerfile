@@ -17,7 +17,7 @@ RUN set -ex && \
     python3 -m ensurepip && \
     pip3 install --index-url https://pypi.org/simple --no-cache-dir numpy protobuf==3.20 && \
     curl -sSfL  https://anchorectl-releases.anchore.io/anchorectl/install.sh  | sh -s -- -b /usr/local/bin && \
-    echo "### trigger package verification for wolfi-base" >> /etc/hosts 
+    echo "trigger package verification for wolfi-base" >> /etc/hosts 
 
 # use date to force a unique build every time
 RUN date > /image_build_timestamp
