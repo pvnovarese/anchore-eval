@@ -23,7 +23,8 @@ pipeline {
     // any changes, but if you're using another registry, you
     // may need to tweak REPOSITORY 
     REPOSITORY = "${DOCKER_HUB_USR}/anchorectl-test"
-    TAG = "build-${BUILD_NUMBER}"
+    TAG = "${BRANCH_NAME}
+    // TAG = "build-${BUILD_NUMBER}"
     //
     // Variables needed for anchorectl to communicate with anchore enterprise:
     ANCHORECTL_URL = credentials("Anchorectl_Url")
