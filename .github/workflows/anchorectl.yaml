@@ -14,13 +14,13 @@ on:
       mode:
         description: 'On-Demand Build'  
         
-  env:
-    ANCHORECTL_URL: ${{ vars.ANCHORECTL_URL }}
-    ANCHORECTL_USERNAME: ${{ vars.ANCHORECTL_USERNAME }}
-    ANCHORECTL_PASSWORD: ${{ secrets.ANCHORECTL_PASSWORD }}
-    ## set ANCHORECTL_FAIL_BASED_ON_RESULTS to true if you want to break the pipeline based on the evaluation
-    ANCHORECTL_FAIL_BASED_ON_RESULTS: false
-    REGISTRY: ghcr.io
+env:
+  ANCHORECTL_URL: ${{ vars.ANCHORECTL_URL }}
+  ANCHORECTL_USERNAME: ${{ vars.ANCHORECTL_USERNAME }}
+  ANCHORECTL_PASSWORD: ${{ secrets.ANCHORECTL_PASSWORD }}
+  ## set ANCHORECTL_FAIL_BASED_ON_RESULTS to true if you want to break the pipeline based on the evaluation
+  ANCHORECTL_FAIL_BASED_ON_RESULTS: false
+  REGISTRY: ghcr.io
      
 jobs:
 
