@@ -25,6 +25,13 @@ pipeline {
     REPOSITORY = "${DOCKER_HUB_USR}/anchorectl-test"
     TAG = "build-${BUILD_NUMBER}"
     //
+    // Variables needed for anchorectl to communicate with anchore enterprise:
+    ANCHORECTL_URL = credentials("Anchorectl_Url")
+    ANCHORECTL_USERNAME = credentials("Anchorectl_Username")
+    ANCHORECTL_PASSWORD = credentials("Anchorectl_Password")
+    // change ANCHORECTL_FAIL_BASED_ON_RESULTS to "true" if you want to break on policy violations
+    ANCHORECTL_FAIL_BASED_ON_RESULTS = "false"
+    //
   } // end environment
 
   agent any
@@ -52,13 +59,6 @@ pipeline {
     } // end stage "Build Image"
     
     stage('Analyze Image w/ anchorectl') {
-      environment {
-        ANCHORECTL_URL = credentials("Anchorectl_Url")
-        ANCHORECTL_USERNAME = credentials("Anchorectl_Username")
-        ANCHORECTL_PASSWORD = credentials("Anchorectl_Password")
-        // change ANCHORECTL_FAIL_BASED_ON_RESULTS to "true" if you want to break on policy violations
-        ANCHORECTL_FAIL_BASED_ON_RESULTS = "false"
-      }
       steps {
         script {
           sh """
@@ -81,14 +81,12 @@ pipeline {
             #
             anchorectl image add --wait --no-auto-subscribe --force --dockerfile ./Dockerfile --from registry ${REGISTRY}/${REPOSITORY}:${TAG}
             #
-            ###
-            ###
-            ### uncomment to pull vulnerability list (optional)
-            # anchorectl image vulnerabilities ${REGISTRY}/${REPOSITORY}:${TAG}
-            ###
+            ### pull vulnerability list (optional)
+            anchorectl image vulnerabilities ${REGISTRY}/${REPOSITORY}:${TAG}
+            #
             ### check policy evaluation
             anchorectl image check --detail ${REGISTRY}/${REPOSITORY}:${TAG}
-            ### 
+            # 
             ### if you want to break the pipeline on a policy violation, add "--fail-based-on-results"
             ### or change the ANCHORECTL_FAIL_BASE_ON_RESULTS variable above to "true"
           """
