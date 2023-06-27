@@ -23,7 +23,7 @@ pipeline {
     // any changes, but if you're using another registry, you
     // may need to tweak REPOSITORY 
     REPOSITORY = "${DOCKER_HUB_USR}/anchorectl-test"
-    TAG = "${BRANCH_NAME}"
+    TAG = "${GIT_BRANCH.split("/")[1]}"
     // TAG = "build-${BUILD_NUMBER}"
     //
     // Variables needed for anchorectl to communicate with anchore enterprise:
