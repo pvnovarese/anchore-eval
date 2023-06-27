@@ -1,7 +1,5 @@
 # Anchore Enterprise Evaluation
 
-[![Anchore Enterprise with anchorectl](https://github.com/pvnovarese/anchorectl-pipeline/actions/workflows/anchorectl-enterprise.yaml/badge.svg)](https://github.com/pvnovarese/anchorectl-pipeline/actions/workflows/anchorectl-enterprise.yaml)
-
 ## Introduction
 
 anchorectl is a command line interface tool for interacting with Anchore Enterprise.  This document covers the use of anchorectl specifically in automated pipelines.  For full documentation on this client, please refer to https://docs.anchore.com
