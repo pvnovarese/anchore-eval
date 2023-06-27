@@ -80,10 +80,26 @@ pipeline {
             ### --dockerfile is optional but if you want to test Dockerfile instructions this is recommended
             #
             anchorectl image add --wait --no-auto-subscribe --force --dockerfile ./Dockerfile --from registry ${REGISTRY}/${REPOSITORY}:${TAG}
-            #
+          """
+        } // end script 
+      } // end steps
+    } // end stage "analyze with anchorectl"
+
+    stage('Pull Vulnerability Report') {
+      steps {
+        script {
+          sh """      
             ### pull vulnerability list (optional)
             anchorectl image vulnerabilities ${REGISTRY}/${REPOSITORY}:${TAG}
-            #
+          """
+        } // end script 
+      } // end steps
+    } // end stage "pull vulnerability report"
+            
+    stage('Pull Compliance Report') {
+      steps {
+        script {
+          sh """      
             ### check policy evaluation
             anchorectl image check --detail ${REGISTRY}/${REPOSITORY}:${TAG}
             # 
@@ -92,7 +108,7 @@ pipeline {
           """
         } // end script 
       } // end steps
-    } // end stage "analyze with anchorectl"
+    } // end stage "pull compliance report"
     
     // optional stage, this just deletes the image locally so I don't end up with 300 old images
     //
