@@ -16,12 +16,11 @@ on:
         description: 'On-Demand Build'  
      
 jobs:
+
   Build:
     runs-on: ubuntu-latest
     env:
       REGISTRY: ghcr.io
-
-
     steps:
     
     - name: "Set IMAGE environmental variables"
@@ -41,19 +40,12 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
-
-    ### note that if you want to scan locally, then push the SBOM to
-    ### anchore enterprise, you can set "push: false" so the image stays local
-    ### 
     - name: build local container
       uses: docker/build-push-action@v3
       with:
         tags: ${{ env.IMAGE }}
         push: true
         load: false
-
-
-
 
   Anchore:
     runs-on: ubuntu-latest
@@ -65,10 +57,6 @@ jobs:
       ## set ANCHORECTL_FAIL_BASED_ON_RESULTS to true if you want to break the pipeline based on the evaluation
       ANCHORECTL_FAIL_BASED_ON_RESULTS: false
       REGISTRY: ghcr.io
-
-
-
-
     steps:
     
     - name: "Set IMAGE environmental variables"
@@ -80,10 +68,9 @@ jobs:
         curl -sSfL https://anchorectl-releases.anchore.io/anchorectl/install.sh | sh -s -- -b ${HOME}/.local/bin v1.6.0
         export PATH="${HOME}/.local/bin/:${PATH}"
             
-    ### create the SBOM locally and push the SBOM to the API.
     - name: Generate SBOM and Push to Anchore
       run: |        
-        anchorectl image add --no-auto-subscribe --wait --from registry ${IMAGE}
+        anchorectl image add --no-auto-subscribe --wait --from registry --dockerfile Dockerfile ${IMAGE}
         
     - name: Pull Vulnerability List
       run: |
