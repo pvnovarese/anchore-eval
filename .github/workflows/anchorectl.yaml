@@ -83,4 +83,4 @@ jobs:
         # set "ANCHORECTL_FAIL_BASED_ON_RESULTS=true" (see above in the "env:" section) to break the pipeline here if the 
         # policy evaluation returns FAIL or add -f, --fail-based-on-results to this command for the same result
         #
-        anchorectl image check --detail ${IMAGE}
+        anchorectl image check --fail-based-on-results --detail ${IMAGE}
